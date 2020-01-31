@@ -3,10 +3,10 @@
         <h1>Add a recipe</h1>
         <div v-if="visible">
             <div class="input">
-                <input type="text" placeholder="Название рецепта" v-model="title">
+                <input type="text" placeholder="Название рецепта" v-model="form.title">
             </div>
             <div class="input">
-                <input type="text" placeholder="Описание рецепта" v-model="description">
+                <input type="text" placeholder="Описание рецепта" v-model="form.description">
             </div>
         </div>
 
@@ -18,6 +18,9 @@
 </template>
 
 <script>
+    import {ref, reactive, computed} from '@vue/composition-api';
+    import {useToggle} from "../composition/toggle";
+    import {useForm} from "../composition/form";
 
     export default {
         props: {
@@ -26,41 +29,25 @@
                 required: true
             }
         },
-        data() {
-            return {
-                title: '',
-                description: '',
-                // visible: true
-            }
-        },
+        // data() {
+        //     return {
+        //         title: '',
+        //         description: '',
+        //         visible: true
+        //     }
+        // },
         computed: {
-            valid() {
-                return this.title.trim() && this.description.trim()
-            }
-        },
-        setup() {
-            let visible = true;
-            const toggle = () => {
-                visible = !visible;
-            };
-            return {
-                visible, toggle
-            }
-        },
-        methods: {
-            onSubmit() {
-                const recipe = {
-                    title: this.title.trim(),
-                    description: this.description.trim(),
-                    id: Date.now().toString()
-                };
-                this.title = this.description = '';
-                this.onAdd(recipe);
-            },
-            // toggle() {
-            //     this.visible = !this.visible;
+            // valid() {
+            //     return this.title.trim() && this.description.trim()
             // }
-        }
+        },
+        setup(props) {
+            // const {visible: show, toggle: onToggle} = useToggle();
+            return {
+                ...useForm(props), ...useToggle()
+            }
+        },
+        methods: {}
     }
 </script>
 

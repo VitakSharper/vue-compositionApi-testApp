@@ -12,31 +12,16 @@
     import AddRecipe from '@/components/AddRecipe'
     import RecipeDetail from '@/components/RecipeDetail'
     import RecipeList from '@/components/RecipeList'
+    import {useRecepies} from "./composition/recepies";
 
     export default {
-        name: 'app',
         components: {
             AddRecipe,
             RecipeList,
             RecipeDetail
         },
-        data() {
-            return {
-                recipes: [],
-                current: null
-            }
-        },
-        methods: {
-            addRecipe(recipe) {
-                this.recipes.push(recipe);
-            },
-            deleteRecipe(recipeId) {
-                this.recipes = this.recipes.filter(r => r.id !== recipeId);
-                this.current = null;
-            },
-            selectRecipe(id) {
-                this.current = this.recipes.find(r => r.id === id)
-            }
+        setup() {
+            return {...useRecepies()}
         }
     }
 </script>
